@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-map="erangel">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DARKSIDE | PUBG Leaks & More</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
   <style>
     :root {
       --bg: #0f0f0f;
@@ -23,12 +23,6 @@
       --card: #ffffff;
       --zone: rgba(0, 188, 212, 0.1);
     }
-
-    /* Map Themes */
-    [data-map="erangel"] { --accent: #5cd65c; --zone: rgba(92, 214, 92, 0.1); }
-    [data-map="miramar"] { --accent: #e6b800; --zone: rgba(230, 184, 0, 0.1); }
-    [data-map="vikendi"] { --accent: #66b3ff; --zone: rgba(102, 179, 255, 0.1); }
-    [data-map="sanhok"] { --accent: #ff6666; --zone: rgba(255, 102, 102, 0.1); }
 
     * {
       box-sizing: border-box;
@@ -122,6 +116,14 @@
       50% { transform: scale(1.2); opacity: 0.1; }
     }
 
+    /* 3D Helmet Container */
+    .helmet-container {
+      width: 180px;
+      height: 180px;
+      margin: 20px auto;
+      position: relative;
+    }
+
     .profile-img {
       width: 130px;
       height: 130px;
@@ -196,23 +198,6 @@
       box-shadow: 0 5px 15px var(--accent);
     }
 
-    /* Weapon sound effect indicator */
-    .button::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .button:hover::after {
-      opacity: 1;
-    }
-
     .social-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -222,41 +207,31 @@
     }
 
     .toggle-container {
-      position: absolute;
+      position: fixed;
       top: 20px;
       right: 20px;
       display: flex;
       gap: 10px;
+      z-index: 100;
     }
 
     .toggle-theme {
       background: none;
       border: 2px solid var(--accent);
       color: var(--accent);
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 8px;
+      border-radius: 50%;
       cursor: pointer;
       font-weight: bold;
       transition: 0.3s ease;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .toggle-theme:hover {
-      background: var(--accent);
-      color: #000;
-    }
-
-    .map-selector {
-      background: none;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s ease;
-    }
-
-    .map-selector:hover {
       background: var(--accent);
       color: #000;
     }
@@ -265,113 +240,6 @@
       margin-top: 40px;
       font-size: 0.9rem;
       color: #888;
-    }
-
-    /* Stats Cards */
-    .stats-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin: 30px 0;
-      max-width: 800px;
-    }
-
-    .stat-card {
-      background: var(--card);
-      border-radius: 10px;
-      padding: 15px;
-      min-width: 150px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border: 1px solid var(--accent);
-      transition: transform 0.3s;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .stat-value {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--accent);
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      margin-top: 5px;
-    }
-
-    /* YouTube Carousel */
-    .carousel {
-      width: 100%;
-      max-width: 800px;
-      margin: 30px auto;
-      position: relative;
-    }
-
-    .carousel-container {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      gap: 20px;
-      padding: 20px 0;
-      scrollbar-width: none; /* Firefox */
-    }
-
-    .carousel-container::-webkit-scrollbar {
-      display: none; /* Chrome/Safari */
-    }
-
-    .carousel-item {
-      min-width: 280px;
-      scroll-snap-align: start;
-      background: var(--card);
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--accent);
-      transition: transform 0.3s;
-    }
-
-    .carousel-item:hover {
-      transform: scale(1.03);
-    }
-
-    .carousel-iframe {
-      width: 100%;
-      height: 160px;
-      border: none;
-    }
-
-    .carousel-title {
-      padding: 10px;
-      font-size: 0.9rem;
-    }
-
-    .carousel-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-
-    .carousel-btn {
-      pointer-events: all;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
     }
 
     /* Floating icons */
@@ -455,14 +323,15 @@
   <div class="float-icons"><i class="fas fa-gamepad"></i></div>
   <div class="float-icons2"><i class="fas fa-bullseye"></i></div>
 
-  <!-- Theme Toggle Buttons -->
+  <!-- Theme Toggle Button -->
   <div class="toggle-container">
-    <button class="map-selector" onclick="changeMap('erangel')">Erangel</button>
-    <button class="map-selector" onclick="changeMap('miramar')">Miramar</button>
-    <button class="map-selector" onclick="changeMap('vikendi')">Vikendi</button>
-    <button class="map-selector" onclick="changeMap('sanhok')">Sanhok</button>
-    <button class="toggle-theme" onclick="toggleTheme()"><i class="fas fa-adjust"></i></button>
+    <button class="toggle-theme" onclick="toggleTheme()" title="Toggle Theme">
+      <i class="fas fa-adjust"></i>
+    </button>
   </div>
+
+  <!-- 3D Helmet -->
+  <div class="helmet-container" id="helmetContainer"></div>
 
   <!-- Profile Image -->
   <img src="https://raw.githubusercontent.com/darksideyt762/darksideyt762.github.io/refs/heads/main/IMG_20250613_083840_768.jpg" alt="Profile" class="profile-img" />
@@ -471,45 +340,6 @@
   <div class="typewriter">PUBG LEAKS SPECIALIST</div>
 
   <p>Bringing you the latest PUBG Mobile leaks, updates, and insider information.</p>
-
-  <!-- Stats Cards -->
-  <div class="stats-container">
-    <div class="stat-card">
-      <div class="stat-value" id="subsCount">25.7K</div>
-      <div class="stat-label">YouTube Subs</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="leaksCount">142</div>
-      <div class="stat-label">Leaks Shared</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="membersCount">8.3K</div>
-      <div class="stat-label">Telegram Members</div>
-    </div>
-  </div>
-
-  <!-- YouTube Carousel -->
-  <div class="carousel">
-    <h2 style="margin-bottom: 15px; color: var(--accent);">Latest Leaks</h2>
-    <div class="carousel-container" id="carousel">
-      <div class="carousel-item">
-        <iframe class="carousel-iframe" src="https://www.youtube.com/embed/?listType=user_uploads&list=DarkSideGaming-762" allowfullscreen></iframe>
-        <div class="carousel-title">My YouTube Leaks</div>
-      </div>
-      <div class="carousel-item">
-        <iframe class="carousel-iframe" src="https://www.youtube.com/embed/?listType=playlist&list=PLzvS9P9VKZ0XmXmXmXmXmXmXmXmXmXmXm" allowfullscreen></iframe>
-        <div class="carousel-title">Upcoming Features</div>
-      </div>
-      <div class="carousel-item">
-        <iframe class="carousel-iframe" src="https://www.youtube.com/embed/?listType=playlist&list=PLzvS9P9VKZ0XmXmXmXmXmXmXmXmXmXmXm" allowfullscreen></iframe>
-        <div class="carousel-title">Weapon Guides</div>
-      </div>
-    </div>
-    <div class="carousel-nav">
-      <button class="carousel-btn" onclick="scrollCarousel(-1)">❮</button>
-      <button class="carousel-btn" onclick="scrollCarousel(1)">❯</button>
-    </div>
-  </div>
 
   <!-- Social Buttons -->
   <div class="social-buttons">
@@ -522,9 +352,6 @@
   <footer>
     &copy; 2025 DARKSIDE | Built with ⚡ GitHub Pages
   </footer>
-
-  <!-- Sound Effects -->
-  <audio id="hoverSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
 
   <script>
     // Loading screen simulation
@@ -566,75 +393,65 @@
     function toggleTheme() {
       const html = document.documentElement;
       html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-      playButtonSound();
     }
     
-    // Map theme changing
-    function changeMap(map) {
-      document.documentElement.dataset.map = map;
-      playButtonSound();
+    // 3D Helmet Animation
+    function initHelmet() {
+      const container = document.getElementById('helmetContainer');
       
-      // Update stats colors
-      document.querySelectorAll('.stat-value').forEach(el => {
-        el.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+      // Scene setup
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(180, 180);
+      container.appendChild(renderer.domElement);
+      
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0x404040);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+      
+      // Helmet model (simplified with a sphere and texture)
+      const textureLoader = new THREE.TextureLoader();
+      const helmetTexture = textureLoader.load('https://i.imgur.com/JqYeZLn.png');
+      
+      const geometry = new THREE.SphereGeometry(5, 32, 32);
+      const material = new THREE.MeshPhongMaterial({
+        map: helmetTexture,
+        transparent: true,
+        shininess: 100
       });
-    }
-    
-    // Button hover sound
-    function playButtonSound() {
-      const sound = document.getElementById('hoverSound');
-      sound.currentTime = 0;
-      sound.play();
-    }
-    
-    // Add hover sound to all buttons
-    document.querySelectorAll('.button, .toggle-theme, .map-selector, .carousel-btn').forEach(button => {
-      button.addEventListener('mouseenter', playButtonSound);
-    });
-    
-    // Animate stats counting
-    function animateStats() {
-      const subs = document.getElementById('subsCount');
-      const leaks = document.getElementById('leaksCount');
-      const members = document.getElementById('membersCount');
       
-      animateValue(subs, 0, 25700, 2000);
-      animateValue(leaks, 0, 142, 1500);
-      animateValue(members, 0, 8300, 1800);
-    }
-    
-    function animateValue(obj, start, end, duration) {
-      let startTimestamp = null;
-      const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const value = Math.floor(progress * (end - start) + start);
-        
-        if (end >= 1000) {
-          obj.innerHTML = (value / 1000).toFixed(1) + 'K';
-        } else {
-          obj.innerHTML = value;
-        }
-        
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        }
-      };
-      window.requestAnimationFrame(step);
-    }
-    
-    // Carousel navigation
-    function scrollCarousel(direction) {
-      const carousel = document.getElementById('carousel');
-      const scrollAmount = 300; // Adjust based on your item width
-      carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-      playButtonSound();
+      const helmet = new THREE.Mesh(geometry, material);
+      scene.add(helmet);
+      
+      camera.position.z = 8;
+      
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        helmet.rotation.x += 0.005;
+        helmet.rotation.y += 0.01;
+        renderer.render(scene, camera);
+      }
+      
+      animate();
+      
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        camera.aspect = 1;
+        camera.updateProjectionMatrix();
+        renderer.setSize(180, 180);
+      });
     }
     
     // Initialize everything when page loads
     window.addEventListener('load', () => {
       simulateLoading();
-      setTimeout(animateStats, 1500);
+      initHelmet();
     });
   </script>
 </body>
