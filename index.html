@@ -1,85 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DARKSIDE | PUBG Leaks & More</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
   <style>
     :root {
-      --bg: #0f0f0f;
-      --text: #f0f0f0;
-      --accent: #00ffff;
+      --bg: #000000;
+      --text: #ffffff;
+      --accent: #FFD700; /* Gold/Yellow */
       --card: #1a1a1a;
-      --zone: rgba(0, 255, 255, 0.1);
-    }
-
-    [data-theme="light"] {
-      --bg: #f0f0f0;
-      --text: #0f0f0f;
-      --accent: #00bcd4;
-      --card: #ffffff;
-      --zone: rgba(0, 188, 212, 0.1);
+      --zone: rgba(255, 215, 0, 0.1);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-
-    /* Loading Screen */
-    .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s;
-    }
-
-    .loading-logo {
-      width: 150px;
-      height: 150px;
-      background: url('https://i.imgur.com/JqYeZLn.png') center/contain no-repeat;
-      margin-bottom: 20px;
-      animation: pulse 1.5s infinite;
-    }
-
-    .loading-bar {
-      width: 200px;
-      height: 4px;
-      background: #333;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .loading-progress {
-      height: 100%;
-      width: 0%;
-      background: var(--accent);
-      transition: width 0.3s;
-    }
-
-    .loading-text {
-      margin-top: 15px;
-      color: #aaa;
-      font-family: 'Orbitron', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.8; }
     }
 
     body {
@@ -94,8 +33,29 @@
       text-align: center;
       padding: 30px 20px;
       overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
       position: relative;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 20%);
+    }
+
+    /* Logo with shine effect */
+    .logo {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: url('https://i.ibb.co/kVpXmLW6/Picsart-25-06-17-21-21-50-462.png') center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 20px var(--accent);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { box-shadow: 0 0 20px var(--accent); }
+      50% { box-shadow: 0 0 40px var(--accent); }
+      100% { box-shadow: 0 0 20px var(--accent); }
     }
 
     /* Zone Animation */
@@ -116,36 +76,25 @@
       50% { transform: scale(1.2); opacity: 0.1; }
     }
 
-    /* 3D Helmet Container */
-    .helmet-container {
-      width: 180px;
-      height: 180px;
-      margin: 20px auto;
-      position: relative;
-    }
-
-    .profile-img {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--accent);
-      margin-bottom: 20px;
-      animation: float 3s ease-in-out infinite;
-      box-shadow: 0 0 15px var(--accent);
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       color: var(--accent);
       margin-bottom: 10px;
       text-shadow: 0 0 10px var(--accent);
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
     }
 
     .typewriter {
@@ -169,16 +118,18 @@
 
     p {
       font-size: 1.1rem;
-      margin-top: 10px;
+      margin: 15px 0;
       max-width: 600px;
+      color: #ddd;
     }
 
+    /* Shiny Buttons */
     .button {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       margin: 12px 8px;
-      padding: 12px 20px;
+      padding: 12px 25px;
       background-color: var(--accent);
       color: #000;
       text-decoration: none;
@@ -189,57 +140,41 @@
       overflow: hidden;
       border: none;
       cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    .button:hover::after {
+      left: 100%;
     }
 
     .button:hover {
       background-color: #fff;
-      color: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
     }
 
     .social-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    .toggle-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 100;
-    }
-
-    .toggle-theme {
-      background: none;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 8px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s ease;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .toggle-theme:hover {
-      background: var(--accent);
-      color: #000;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #888;
+      gap: 15px;
+      margin: 25px 0;
     }
 
     /* Floating icons */
@@ -303,18 +238,34 @@
       0%, 100% { opacity: 0.2; }
       50% { opacity: 0.5; }
     }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .logo {
+        width: 120px;
+        height: 120px;
+      }
+      .social-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-logo"></div>
-    <div class="loading-bar">
-      <div class="loading-progress" id="loadingProgress"></div>
-    </div>
-    <div class="loading-text" id="loadingText">Loading DARKSIDE Intel</div>
-  </div>
-
   <!-- Zone Effect -->
   <div class="zone-effect"></div>
   <div class="zone-border"></div>
@@ -323,21 +274,11 @@
   <div class="float-icons"><i class="fas fa-gamepad"></i></div>
   <div class="float-icons2"><i class="fas fa-bullseye"></i></div>
 
-  <!-- Theme Toggle Button -->
-  <div class="toggle-container">
-    <button class="toggle-theme" onclick="toggleTheme()" title="Toggle Theme">
-      <i class="fas fa-adjust"></i>
-    </button>
-  </div>
-
-  <!-- 3D Helmet -->
-  <div class="helmet-container" id="helmetContainer"></div>
-
-  <!-- Profile Image -->
-  <img src="https://raw.githubusercontent.com/darksideyt762/darksideyt762.github.io/refs/heads/main/IMG_20250613_083840_768.jpg" alt="Profile" class="profile-img" />
+  <!-- Logo with shine -->
+  <div class="logo"></div>
 
   <h1>DARKSIDE</h1>
-  <div class="typewriter">PUBG LEAKS SPECIALIST</div>
+  <div class="typewriter">PREMIUM GAMING EXPERIENCE</div>
 
   <p>Bringing you the latest PUBG Mobile leaks, updates, and insider information.</p>
 
@@ -354,104 +295,22 @@
   </footer>
 
   <script>
-    // Loading screen simulation
-    function simulateLoading() {
-      const loadingScreen = document.getElementById('loadingScreen');
-      const loadingProgress = document.getElementById('loadingProgress');
-      const loadingText = document.getElementById('loadingText');
-      
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 10;
-        if (progress > 100) progress = 100;
-        loadingProgress.style.width = `${progress}%`;
-        
-        // Change loading text randomly
-        if (progress < 30) {
-          loadingText.textContent = "Loading DARKSIDE Intel";
-        } else if (progress < 60) {
-          loadingText.textContent = "Decrypting PUBG Files";
-        } else if (progress < 90) {
-          loadingText.textContent = "Analyzing Leaks";
-        } else {
-          loadingText.textContent = "Ready to Drop!";
-        }
-        
-        if (progress >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-              loadingScreen.style.display = 'none';
-            }, 500);
-          }, 500);
-        }
-      }, 200);
-    }
-    
-    // Theme toggling
-    function toggleTheme() {
-      const html = document.documentElement;
-      html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-    }
-    
-    // 3D Helmet Animation
-    function initHelmet() {
-      const container = document.getElementById('helmetContainer');
-      
-      // Scene setup
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(180, 180);
-      container.appendChild(renderer.domElement);
-      
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0x404040);
-      scene.add(ambientLight);
-      
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-      directionalLight.position.set(1, 1, 1);
-      scene.add(directionalLight);
-      
-      // Helmet model (simplified with a sphere and texture)
-      const textureLoader = new THREE.TextureLoader();
-      const helmetTexture = textureLoader.load('https://raw.githubusercontent.com/darksideyt762/darksideyt762.github.io/refs/heads/main/IMG_20250613_083840_768.jpg');
-      
-      const geometry = new THREE.SphereGeometry(5, 32, 32);
-      const material = new THREE.MeshPhongMaterial({
-        map: helmetTexture,
-        transparent: true,
-        shininess: 100
+    // Button shine effect on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.button');
+      buttons.forEach(button => {
+        setTimeout(() => {
+          button.classList.add('shine');
+          setTimeout(() => button.classList.remove('shine'), 1000);
+        }, 500);
       });
       
-      const helmet = new THREE.Mesh(geometry, material);
-      scene.add(helmet);
-      
-      camera.position.z = 8;
-      
-      // Animation loop
-      function animate() {
-        requestAnimationFrame(animate);
-        helmet.rotation.x += 0.005;
-        helmet.rotation.y += 0.01;
-        renderer.render(scene, camera);
-      }
-      
-      animate();
-      
-      // Handle window resize
-      window.addEventListener('resize', () => {
-        camera.aspect = 1;
-        camera.updateProjectionMatrix();
-        renderer.setSize(180, 180);
-      });
-    }
-    
-    // Initialize everything when page loads
-    window.addEventListener('load', () => {
-      simulateLoading();
-      initHelmet();
+      // Trigger button shine effect periodically
+      setInterval(() => {
+        const randomButton = buttons[Math.floor(Math.random() * buttons.length)];
+        randomButton.classList.add('shine');
+        setTimeout(() => randomButton.classList.remove('shine'), 1000);
+      }, 3000);
     });
   </script>
 </body>
